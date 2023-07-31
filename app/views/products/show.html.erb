@@ -1,22 +1,25 @@
 <h1 class="text-4xl font-bold text-gray-800"><%= @product.name %></h1>
 <p class="text-lg text-gray-600"><%= @product.description %></p>
 
-<h2>Comments</h2>
+<h2 >Comments</h2>
 <div>
   <% @product.comments.each do |comment| %>
+    <div class="<%= comment.id %>" data-comment-id="<%= comment.id %>">
+    <div >
     <div>
       <% user = User.find_by(id: comment.user_id) %>
       <%= user.name if user %>
     </div>
-    <div id="comments">
-     
-      <%= comment.content %>
+    <div id="comments" data-product-id="<%= @product.id %>" >
+    <%# this is changed %>
+      <span class="comment-content"><%= comment.content %></span> 
       <% if policy(comment).edit? %>
         <%= link_to "Edit", edit_category_product_comment_path(@category, @product, comment), class: "text-blue-500 font-bold mr-2" %>
         <%= form_with(model: comment, url: category_product_comment_path(@category, @product, comment), method: :delete, html: { class: "inline" }) do |form| %>
           <%= form.submit 'Delete', class: 'text-red-500 font-bold' %>
         <% end %>
       <% end %>
+    </div>
     </div>
     <div >
       <% comment.replies.each do |reply| %>
@@ -44,6 +47,7 @@
     <% end %>
   <% end %>
 </div>
+    </div>
 
 <%= form_with(model: [@product, @product.comments.build], url: category_product_comments_path(@category, @product)) do |form| %>
   <div>

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   }
   get 'home/index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  root to: "home#index"
+  root to: "categories#index"
   mount ActionCable.server => '/cable'
   resources :categories do
     resources :products do

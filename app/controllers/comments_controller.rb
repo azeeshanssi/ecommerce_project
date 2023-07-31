@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment
   
+  
   def create
     @comment = @product.comments.build(comment_params)
     # @product = Product.find(params[:product_id])
@@ -11,8 +12,12 @@ class CommentsController < ApplicationController
       product = Product.find(params[:product_id])
       
       if @comment.save
-        debugger
-        CommentChannel.broadcast_to(product, content: @comment.content)
+        # CommentChannel.broadcast_to("comment_channel", { product_id: @product.id, content: @comment.content })
+
+
+        # CommentChannel.broadcast_to(product, content: @comment.content) #this was working
+        # CommentChannel.broadcast_to("comment_channel", { product_id: @product.id, content: @comment.content })
+        ActionCable.server.broadcast 'comment_channel', { product_id: product.id, content: @comment.content, method: "new" } #this aswell
         redirect_to category_product_path(@category, @product), notice: 'Comment was successfully added.'
         
       else
@@ -43,10 +48,10 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     if current_user
       authorize @comment
-      
-
+      product = Product.find(params[:product_id])
       if @comment.update(comment_params)
         
+        ActionCable.server.broadcast 'comment_channel', { product_id: product.id, content: @comment.content,id:@comment.id, method: "update" }
         redirect_to category_product_path(@category, @product), notice: 'Comment was successfully updated.'
       else
         render :edit
@@ -59,9 +64,12 @@ class CommentsController < ApplicationController
   def destroy
    
     @comment=Comment.find(params[:id])
+    product = Product.find(params[:product_id])
+      
     if current_user
       authorize @comment
       @comment.destroy
+      ActionCable.server.broadcast 'comment_channel', { product_id: product.id, content: @comment.content,id:@comment.id, method: "delete" } #this aswell
       redirect_to category_product_path(@category, @product), notice: 'Comment was successfully deleted.'
     else
       authorize @comment
@@ -101,6 +109,7 @@ class CommentsController < ApplicationController
     
     @category = Category.find(params[:category_id])
     @product = Product.find(params[:product_id])
+    @comment=Comment.find(params[:id])
    
   end
   

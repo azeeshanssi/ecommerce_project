@@ -13,6 +13,6 @@ class CommentPolicy < ApplicationPolicy
     end
   
     def destroy?
-      user&&(user.admin?||((user == record.user_id)))
+      user&&(user.admin?||((user.id == record.user_id)))
     end
   end
