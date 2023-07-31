@@ -36,6 +36,7 @@
         </div>
       <% end %>
     </div>
+    <% if user_signed_in?%>
     <%= form_with(model: [comment, comment.replies.build], url: create_reply_category_product_comment_path(@category, @product, comment)) do |form| %>
       <div>
         <%= form.label :reply %>
@@ -46,9 +47,10 @@
       </div>
     <% end %>
   <% end %>
+  <%end%>
 </div>
     </div>
-
+<%if user_signed_in?%>
 <%= form_with(model: [@product, @product.comments.build], url: category_product_comments_path(@category, @product)) do |form| %>
   <div>
     <%= form.label :Comment %>
@@ -58,7 +60,7 @@
     <%= form.submit 'Add Comment', class: 'bg-blue-500 text-white font-bold px-4 py-2 rounded' %>
   </div>
 <% end %>
-
+<% end %>
 <%= link_to 'Back to Products', category_products_path, class: 'mt-20 bg-blue-500 text-white font-bold px-4 py-2 rounded' %>
 
 

@@ -1,7 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment
   
-  
   def create
     @comment = @product.comments.build(comment_params)
     # @product = Product.find(params[:product_id])
@@ -109,7 +108,6 @@ class CommentsController < ApplicationController
     
     @category = Category.find(params[:category_id])
     @product = Product.find(params[:product_id])
-    @comment=Comment.find(params[:id])
    
   end
   

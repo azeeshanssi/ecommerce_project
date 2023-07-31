@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_category
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_product, except:[:create, :new, :index, :show]
 
   def index
     @products = @category.products
@@ -41,32 +42,32 @@ class ProductsController < ApplicationController
   def update
     if current_user
       if current_user.admin?||(current_user.seller?)
-        authorize @product
+        # authorize @product
         if @product.update(product_params)
         redirect_to category_product_path(@category, @product), notice: 'Product was successfully updated.'
         else
         render :edit
         end
-      else
-        authorize @product
-      end
-    else
-      authorize @product
-    end
+    #   else
+    #     authorize @product
+       end
+    # else
+    #   authorize @product
+     end
 
   end
 
   def destroy
     if current_user
       if current_user.admin?||(current_user.seller?)
-        authorize @product
+        # authorize @product
         @product.destroy
         redirect_to category_products_path(@category), notice: 'Product was successfully deleted.'
-      else
-        authorize @product
+      # else
+      #   authorize @product
       end
-    else
-      authorize @product
+    # else
+    #   authorize @product
     end
   end
 
@@ -83,5 +84,8 @@ class ProductsController < ApplicationController
 
   def product_params
     params.require(:product).permit(:name, :description, :price)
+  end
+  def authorize_product
+    authorize @product
   end
 end

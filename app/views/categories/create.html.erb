@@ -1,21 +1,24 @@
-<h1>Hi here I am</h1>
+<%# <h1 class="text-4xl font-bold text-gray-800">Hi here I am</h1> %>
+
 <!-- app/views/categories/create.html.erb -->
 
-<h2>Create New Category</h2>
+<div class="mt-8">
+  <h2 class="text-2xl font-bold text-gray-800">Create New Category</h2>
 
-<%= form_for(@category) do |f| %>
-  <%# Category Name Field %>
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
+  <%= form_for(@category, html: { class: "mt-4" }) do |f| %>
+    <%# Category Name Field %>
+    <div class="mt-4">
+      <%= f.label :name, class: "block font-semibold text-gray-800" %>
+      <%= f.text_field :name, class: "form-input mt-1 block w-full" %>
+    </div>
 
-  <%# Other Category Fields %>
-  <!-- Add any other fields you want for the category -->
+    <%# Other Category Fields %>
+    <!-- Add any other fields you want for the category -->
 
-  <div class="actions">
-    <%= f.submit 'Create Category' %>
-  </div>
-<% end %>
+    <div class="mt-4">
+      <%= f.submit 'Create Category', class: "bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-300" %>
+    </div>
+  <% end %>
 
-<%= link_to 'Back', categories_path %>
+  <%= link_to 'Back', categories_path, class: "mt-4 bg-gray-500 text-white font-bold px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300" %>
+</div>

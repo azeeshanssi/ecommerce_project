@@ -1,6 +1,7 @@
     # app/controllers/categories_controller.rb
 class CategoriesController < ApplicationController
     before_action :set_category, only: [:show, :edit, :update, :destroy]
+    before_action :authorize_category, except:[:create, :new, :index]
   
     def index
       @categories = Category.all
@@ -52,16 +53,16 @@ class CategoriesController < ApplicationController
     end
   
     def edit
-      if current_user
-        if current_user.admin?||current_user.seller?
-          authorize @category
-        else
-          # If not an admin, assume the user is a buyer
-          authorize @category
-        end
-      else
-        authorize @category
-      end
+      # if current_user
+      #   if current_user.admin?||current_user.seller?
+      #     authorize @category
+      #   else
+      #     # If not an admin, assume the user is a buyer
+      #     authorize @category
+      #   end
+      # else
+      #   authorize @category
+      # end
     end
   
     def update
@@ -69,18 +70,18 @@ class CategoriesController < ApplicationController
       @category = Category.find(params[:id])
       if current_user
         if current_user.admin?||(current_user.seller?)
-          authorize @category
+          # authorize @category
           if @category.update(category_params)
             redirect_to categories_path, notice: 'Category was successfully updated.'
           else
             render :edit
           end
-        else
+        # else
           # If not an admin, assume the user is a buyer
-          authorize @category
+          # authorize @category
         end
-      else
-        authorize @category
+      # else
+      #   authorize @category
       end
       # ...
     end
@@ -88,15 +89,15 @@ class CategoriesController < ApplicationController
     def destroy
       if current_user
         if current_user.admin?||(current_user.seller?)
-          authorize @category
+          # authorize @category
           @category.destroy
           redirect_to categories_url, notice: 'Category was successfully deleted.'
-        else
-          # If not an admin, assume the user is a buyer
-          authorize @category
+        # else
+        #   # If not an admin, assume the user is a buyer
+        #   authorize @category
         end
-      else
-        authorize @category
+      # else
+      #   authorize @category
       end
       
     end
@@ -110,6 +111,11 @@ class CategoriesController < ApplicationController
     end
     def category_params
       params.require(:category).permit(:name, :description)
+    end
+    def authorize_category
+    
+      authorize @category
+      
     end
 end
   
