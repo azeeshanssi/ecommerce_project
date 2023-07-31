@@ -1,0 +1,18 @@
+<nav class="bg-red-300 py-2">
+  <ul  class="flex justify-center space-x-4">
+    <li ><%= link_to "Home", root_path, class: "text-white hover:text-gray-200" %></li>
+    <li><%= link_to "About", root_path,  class: "text-white hover:text-gray-200" %></li>
+    <li><%= link_to "Contact", root_path,  class: "text-white hover:text-gray-200" %></li>
+    <li><%= link_to "Sign Up", new_user_registration_path,  class: "text-white hover:text-gray-200" %></li>
+   <!-- Add this to your layout file -->
+    <% if user_signed_in? %>
+    <%= form_for(current_user, url: destroy_user_session_path, method: :delete) do |f| %>
+    <%= f.button "Logout", type: "submit" , class: "text-white hover:text-gray-200"%>
+    <% end %>
+    <% else %>
+    <li><%= link_to "Sign In", new_user_session_path, class: "text-white hover:text-gray-200"%></li>
+    <% end %>
+
+    <!-- Add other navigation links as needed -->
+  </ul>
+</nav>

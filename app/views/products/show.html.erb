@@ -1,0 +1,60 @@
+<h1 class="text-4xl font-bold text-gray-800"><%= @product.name %></h1>
+<p class="text-lg text-gray-600"><%= @product.description %></p>
+
+<h2>Comments</h2>
+<div>
+  <% @product.comments.each do |comment| %>
+    <div>
+      <% user = User.find_by(id: comment.user_id) %>
+      <%= user.name if user %>
+    </div>
+    <div id="comments">
+     
+      <%= comment.content %>
+      <% if policy(comment).edit? %>
+        <%= link_to "Edit", edit_category_product_comment_path(@category, @product, comment), class: "text-blue-500 font-bold mr-2" %>
+        <%= form_with(model: comment, url: category_product_comment_path(@category, @product, comment), method: :delete, html: { class: "inline" }) do |form| %>
+          <%= form.submit 'Delete', class: 'text-red-500 font-bold' %>
+        <% end %>
+      <% end %>
+    </div>
+    <div >
+      <% comment.replies.each do |reply| %>
+        <div>
+          <% user = User.find_by(id: reply.user_id) %>
+          <%= user.name if user %> 
+        </div>
+        <div>
+          <%= reply.content %>
+          <% if policy(reply).edit? %>
+            <%= link_to "Edit", edit_category_product_comment_path(@category, @product, reply), class: "text-blue-500 font-bold mr-2" %> 
+            <%= link_to "Delete", destroy_reply_category_product_comment_path(@category, @product, reply), method: :delete, data: { "turbo-method": :delete }, class: "text-red-500 font-bold" %> 
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <%= form_with(model: [comment, comment.replies.build], url: create_reply_category_product_comment_path(@category, @product, comment)) do |form| %>
+      <div>
+        <%= form.label :reply %>
+        <%= form.text_area :content, class: "form-textarea" %>
+      </div>
+      <div>
+        <%= form.submit 'Add Reply', class: 'bg-blue-500 text-white font-bold px-4 py-2 rounded' %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= form_with(model: [@product, @product.comments.build], url: category_product_comments_path(@category, @product)) do |form| %>
+  <div>
+    <%= form.label :Comment %>
+    <%= form.text_area :content, class: "form-textarea" %>
+  </div>
+  <div>
+    <%= form.submit 'Add Comment', class: 'bg-blue-500 text-white font-bold px-4 py-2 rounded' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to Products', category_products_path, class: 'mt-20 bg-blue-500 text-white font-bold px-4 py-2 rounded' %>
+
+

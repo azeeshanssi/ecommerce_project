@@ -1,0 +1,5 @@
+<!-- app/views/categories/destroy.html.erb -->
+<h1>Delete Category</h1>
+<p>Are you sure you want to delete the category "<%= @category.name %>"?</p>
+<%= link_to 'Delete', category_path(@category), method: :delete, data: { confirm: 'Are you sure?' } %>
+<%= link_to 'Cancel', categories_path %>

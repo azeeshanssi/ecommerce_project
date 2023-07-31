@@ -1,0 +1,17 @@
+<h1 class="text-4xl font-bold text-gray-800">Edit Category</h1>
+
+<%= form_with(model: @category, url: category_path(@category), method: :patch) do |form| %>
+  <div class="mt-4">
+    <%= form.label :name, class: "text-xl" %><br />
+    <%= form.text_field :name, class: "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :description, class: "text-xl" %><br />
+    <%= form.text_area :description, class: "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" %>
+  </div>
+
+  <div class="mt-4">
+    <%= form.submit "Update Category", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300" %>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+<h1>New Cart</h1>
+
+<!-- Form for creating the cart -->
+
+<!-- Form for selecting products to add to the cart -->
+<%= form_tag add_selected_products_to_cart_path, method: :post do %>
+  <% @products.each do |product| %>
+    <div>
+      <%= check_box_tag "product_ids[]", product.id %>
+      <%= label_tag "product_#{product.id}", product.name %>
+    </div>
+  <% end %>
+
+  <%= submit_tag "Add Selected Products to Cart" %>
+<% end %>

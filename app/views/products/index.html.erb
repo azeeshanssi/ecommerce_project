@@ -1,0 +1,42 @@
+<h1 class="text-4xl font-bold text-gray-800 mb-4">All Products in <%= @category.name %> Category</h1>
+
+<table class="w-full border-collapse">
+  <thead>
+    <tr>
+      <th class="px-4 py-2">Name</th>
+      <th class="px-4 py-2">Description</th>
+      <th class="px-4 py-2">Category</th>
+      <th class="px-4 py-2">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td class="px-4 py-2">
+          <%= link_to product.name, category_product_path(@category, product), class: "text-blue-500 hover:underline" %>
+        </td>
+        <td class="px-4 py-2"><%= product.description %></td>
+        <td class="px-4 py-2"><%= product.category.name %></td>
+        <td class="px-4 py-2">
+          <div class="flex">
+          <%if policy(product).edit?%>
+            <%= form_with(model: product, url: edit_category_product_path(@category, product), method: :get) do |form| %>
+              <%= form.submit 'Edit', class: 'bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-colors duration-300 mr-2' %>
+            <% end %>
+          <%end%>
+
+            <!-- Delete Button -->
+            <%if policy(product).destroy?%>
+            <%= form_with(model: product, url: category_product_path(@category, product), method: :delete) do |form| %>
+              <%= form.submit 'Delete', class: 'bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-colors duration-300' %>
+            <% end %>
+            <%end%>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "New Product", new_category_product_path(@category), class: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-300 mt-4" %>
+<%= link_to "Back to Categories", categories_path, class: "bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors duration-300 ml-4 mt-4" %>

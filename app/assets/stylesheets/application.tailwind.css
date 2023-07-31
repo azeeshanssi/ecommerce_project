@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.form-textarea {
+  border: 1px solid #cbd5e0; /* Add the desired border color */
+  padding: 8px; /* Add some padding to improve appearance */
+}
+.form-textarea:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #cbd5e0; /* Add the desired border color */
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); /* Optional: Add a box shadow on focus */
+}
+
+/*
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-200;
+  }
+}
+
+*/

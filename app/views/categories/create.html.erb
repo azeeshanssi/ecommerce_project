@@ -1,0 +1,21 @@
+<h1>Hi here I am</h1>
+<!-- app/views/categories/create.html.erb -->
+
+<h2>Create New Category</h2>
+
+<%= form_for(@category) do |f| %>
+  <%# Category Name Field %>
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%# Other Category Fields %>
+  <!-- Add any other fields you want for the category -->
+
+  <div class="actions">
+    <%= f.submit 'Create Category' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', categories_path %>
