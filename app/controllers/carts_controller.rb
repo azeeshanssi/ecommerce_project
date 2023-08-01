@@ -32,7 +32,7 @@ class CartsController < ApplicationController
             selected_product_ids = params[:product_ids] || []
     
             selected_product_ids.each do |product_id|
-                product = Product.find_by(id: product_id)
+                product = Product.find_by(id: product_id) #this I feel is not n+1 as we are only querying for each in the array and not they are not two seperate database queries
                 next unless product
     
                 cart_item = CartItem.new(cart: @cart, product: product, quantity: 1)
