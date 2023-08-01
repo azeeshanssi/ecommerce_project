@@ -33,4 +33,9 @@
   <%= link_to 'Add Category', new_category_path, class: 'px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-indigo-600 transition-colors duration-300' %>
   <%end%>
 </div>
+<div class="mt-4">
+  <%if user_signed_in?%>
+  <%= link_to 'Go to Cart', carts_path, class: 'px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-indigo-600 transition-colors duration-300' %>
+  <%end%>
+</div>
 
