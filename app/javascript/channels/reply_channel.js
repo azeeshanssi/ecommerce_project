@@ -31,12 +31,19 @@ consumer.subscriptions.create("ReplyChannel", {
     if (commentElement) {
       // Append the new reply to the comment element
       console.log("also came here")
-      newReplyElement.setAttribute('data-reply-id', data.reply_id);
+      
       const newReplyElement = document.createElement('div');
+      newReplyElement.setAttribute('data-reply-id', data.reply_id);
       newReplyElement.innerHTML = `
         <div>
           <p class="user-name">${newUserName}</p> 
           <span>${newContent}</span>
+          ${
+            
+               `<a href="/categories/${data.category_id}/products/${data.product_id}/comments/${data.id}/edit" class="text-blue-500 font-bold mr-2">Edit</a>
+                <a href="/categories/${data.category_id}/products/${data.product_id}/comments/${data.id}" data-turbo-method="delete" class="text-red-500 font-bold">Delete</a>`
+              
+          }
         </div>
       `;
       commentElement.appendChild(newReplyElement);
