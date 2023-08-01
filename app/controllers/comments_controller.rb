@@ -83,10 +83,11 @@ class CommentsController < ApplicationController
     @newcomment = parent_comment.replies.build(comment_params)
     @newcomment.product_id = params[:product_id]
     @newcomment.user = current_user # Assuming you have set up user authentication
+    
 
 
     if @newcomment.save
-      ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content }
+      ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content, user_name: @newcomment.user.name }
       redirect_to category_product_path(@category, @product), notice: 'Reply was successfully added.'
     else
       # Handle validation errors if needed
