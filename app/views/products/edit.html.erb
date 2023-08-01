@@ -1,4 +1,4 @@
-<h1 class="text-4xl font-bold text-gray-800 mb-4">New Product</h1>
+<h1 class="text-4xl font-bold text-gray-800 mb-4">Update Product</h1>
 
 <%= form_with(model: [@category, @product]) do |form| %>
   <% if @product.errors.any? %>
@@ -22,6 +22,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Create Product", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300" %>
+    <%= form.submit "Update Product", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300" %>
   </div>
 <% end %>
