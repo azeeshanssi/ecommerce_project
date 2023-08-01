@@ -86,7 +86,7 @@ class CommentsController < ApplicationController
 
 
     if @newcomment.save
-      CommentChannel.broadcast_to("comment_channel", comment: @newcomment)
+      ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content }
       redirect_to category_product_path(@category, @product), notice: 'Reply was successfully added.'
     else
       # Handle validation errors if needed

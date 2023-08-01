@@ -4,6 +4,7 @@
 <h2 >Comments</h2>
 <div>
   <% @product.comments.each do |comment| %>
+  <% if comment.parent_comment_id.nil? %>
     <div class="<%= comment.id %>" data-comment-id="<%= comment.id %>">
     <div >
     <div>
@@ -50,6 +51,7 @@
   <%end%>
 </div>
     </div>
+  <%end%>
 <%if user_signed_in?%>
 <%= form_with(model: [@product, @product.comments.build], url: category_product_comments_path(@category, @product)) do |form| %>
   <div>
