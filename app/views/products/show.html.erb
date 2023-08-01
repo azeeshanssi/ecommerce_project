@@ -8,8 +8,9 @@
     <div class="<%= comment.id %>" data-comment-id="<%= comment.id %>">
     <div >
     <div>
-      <% user = User.find_by(id: comment.user_id) %>
-      <%= user.name if user %>
+      <%# <% user = User.find_by(id: comment.user_id) %> 
+      <%# <%= user.name if user %> 
+       <%= comment.user.name if comment.user %>
     </div>
     <div id="comments" data-product-id="<%= @product.id %>" >
     <%# this is changed %>
@@ -26,8 +27,9 @@
       <% comment.replies.each do |reply| %>
       <div data-reply-id="<%= reply.id %>">
         <div>
-          <% user = User.find_by(id: reply.user_id) %>
-          <%= user.name if user %> 
+          <%# <% user = User.find_by(id: reply.user_id) %> 
+          <%# <%= user.name if user %>  
+          <%= reply.user.name if reply.user %>
         </div>
         <div>
           <%= reply.content %>
