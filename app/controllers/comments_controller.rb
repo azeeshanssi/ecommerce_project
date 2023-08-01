@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   
   def create
     @comment = @product.comments.build(comment_params)
+    user = User.find_by(id: @comment.user_id)
     # @product = Product.find(params[:product_id])
     if current_user
       authorize @comment
@@ -16,7 +17,7 @@ class CommentsController < ApplicationController
 
         # CommentChannel.broadcast_to(product, content: @comment.content) #this was working
         # CommentChannel.broadcast_to("comment_channel", { product_id: @product.id, content: @comment.content })
-        ActionCable.server.broadcast 'comment_channel', { product_id: product.id, content: @comment.content, method: "new" } #this aswell
+        ActionCable.server.broadcast 'comment_channel', {user_name:@comment.user.name, product_id: product.id, content: @comment.content, method: "new" } #this aswell
         redirect_to category_product_path(@category, @product), notice: 'Comment was successfully added.'
         
       else
@@ -45,12 +46,13 @@ class CommentsController < ApplicationController
     @category = Category.find(params[:category_id])
     @product = Product.find(params[:product_id])
     @comment = Comment.find(params[:id])
+    user = User.find_by(id: @comment.user_id)
     if current_user
       authorize @comment
       product = Product.find(params[:product_id])
       if @comment.update(comment_params)
         
-        ActionCable.server.broadcast 'comment_channel', { product_id: product.id, content: @comment.content,id:@comment.id, method: "update" }
+        ActionCable.server.broadcast 'comment_channel', {user_name:user.name, product_id: product.id, content: @comment.content,id:@comment.id, method: "update" }
         redirect_to category_product_path(@category, @product), notice: 'Comment was successfully updated.'
       else
         render :edit

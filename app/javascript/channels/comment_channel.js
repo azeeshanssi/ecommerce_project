@@ -46,6 +46,7 @@ consumer.subscriptions.create("CommentChannel" ,{
       }
     }
     else if(data.method==="new"){
+      const UserName=data.user_name
       console.log("I came to create comment",data.product_id)
       const productId=data.product_id;
     // console.log("my product id is is",productId);
@@ -57,8 +58,19 @@ consumer.subscriptions.create("CommentChannel" ,{
     // Create a new element to display the comment
     const commentElement = document.createElement("div"); //here I make a new element 
     commentElement.classList.add("comment"); //here I add the class
-    commentElement.innerHTML = `<p>${commentContent}</p>`; //here I make the element but do I add the user?
-
+    // commentElement.innerHTML = `<p>${commentContent}</p>`; //here I make the element but do I add the user?
+    commentElement.innerHTML = `
+    <div>
+      <p class="user-name">${UserName}</p> 
+      <span>${commentContent}</span>
+      ${
+        
+           `<a href="/categories/${data.category_id}/products/${data.product_id}/comments/${data.id}/edit" class="text-blue-500 font-bold mr-2">Edit</a>
+            <a href="/categories/${data.category_id}/products/${data.product_id}/comments/${data.id}" data-turbo-method="delete" class="text-red-500 font-bold">Delete</a>`
+          
+      }
+    </div>
+  `;
     // Add the comment element to the comments container
     commentContainer.appendChild(commentElement);
     // console.log("I also came here")
