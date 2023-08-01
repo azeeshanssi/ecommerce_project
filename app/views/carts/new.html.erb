@@ -8,6 +8,7 @@
     <div>
       <%= check_box_tag "product_ids[]", product.id %>
       <%= label_tag "product_#{product.id}", product.name %>
+      <%= number_field_tag "quantity_#{product.id}", 1, min: 1 %>
     </div>
   <% end %>
 
