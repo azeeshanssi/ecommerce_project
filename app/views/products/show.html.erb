@@ -22,8 +22,9 @@
       <% end %>
     </div>
     </div>
-    <div >
+    
       <% comment.replies.each do |reply| %>
+      <div data-reply-id="<%= reply.id %>">
         <div>
           <% user = User.find_by(id: reply.user_id) %>
           <%= user.name if user %> 
@@ -35,6 +36,7 @@
             <%= link_to "Delete", destroy_reply_category_product_comment_path(@category, @product, reply), method: :delete, data: { "turbo-method": :delete }, class: "text-red-500 font-bold" %> 
           <% end %>
         </div>
+      </div>
       <% end %>
     </div>
     <% if user_signed_in?%>

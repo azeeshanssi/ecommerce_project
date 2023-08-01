@@ -87,7 +87,7 @@ class CommentsController < ApplicationController
 
 
     if @newcomment.save
-      ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content, user_name: @newcomment.user.name }
+      ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content, reply_id: @newcomment.id, user_name: @newcomment.user.name, method:"new" }
       redirect_to category_product_path(@category, @product), notice: 'Reply was successfully added.'
     else
       # Handle validation errors if needed
@@ -99,7 +99,9 @@ class CommentsController < ApplicationController
 
   def destroy_reply
     @comment = Comment.find(params[:id])
+    @parentcomment=Comment.find(@comment.parent_comment_id)
     @comment.destroy
+    ActionCable.server.broadcast 'reply_channel', { comment_id: @parentcomment.id, reply_id: @comment.id, method: 'delete' }
     redirect_to category_product_path(@comment.product.category, @comment.product), notice: 'Reply was successfully deleted.'
   end
 
