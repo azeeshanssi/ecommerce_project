@@ -15,4 +15,7 @@ class ProductPolicy < ApplicationPolicy
     def destroy?
         user&&(user.admin? || (user.seller? && user.id == record.user_id))
     end
+    def show?
+      true
+    end
   end

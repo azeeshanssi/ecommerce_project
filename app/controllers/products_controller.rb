@@ -1,14 +1,14 @@
 class ProductsController < ApplicationController
   before_action :set_category
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_product, except:[:create, :new, :index, :show]
+  before_action :authorize_product, except:[:create, :new, :index]
 
   def index
     @products = @category.products
   end
 
   def show
-    # @product = Product.find(params[:id])
+   
     @product = Product.includes(comments: :user).find(params[:id])
   end
 
@@ -43,17 +43,16 @@ class ProductsController < ApplicationController
   def update
     if current_user
       if current_user.admin?||(current_user.seller?)
-        # authorize @product
+       
         if @product.update(product_params)
+        ActionCable.server.broadcast 'product_channel', {product_id: @product.id, price: @product.price, method: "update" }
         redirect_to category_product_path(@category, @product), notice: 'Product was successfully updated.'
         else
         render :edit
         end
-    #   else
-    #     authorize @product
+ 
        end
-    # else
-    #   authorize @product
+ 
      end
 
   end
@@ -61,14 +60,12 @@ class ProductsController < ApplicationController
   def destroy
     if current_user
       if current_user.admin?||(current_user.seller?)
-        # authorize @product
+     
         @product.destroy
         redirect_to category_products_path(@category), notice: 'Product was successfully deleted.'
-      # else
-      #   authorize @product
+   
       end
-    # else
-    #   authorize @product
+ 
     end
   end
 

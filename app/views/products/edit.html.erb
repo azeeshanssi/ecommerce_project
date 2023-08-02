@@ -21,6 +21,11 @@
     <%= form.text_area :description, class: "form-textarea mt-1 block w-full rounded-md border-gray-300" %>
   </div>
 
+  <div class="mb-4">
+    <%= form.label :price, class: "block text-xl font-medium text-gray-800" %>
+    <%= form.text_area :price, class: "form-textarea mt-1 block w-full rounded-md border-gray-300" %>
+  </div>
+
   <div class="actions">
     <%= form.submit "Update Product", class: "px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300" %>
   </div>

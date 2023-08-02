@@ -1,16 +1,26 @@
-<h1>New Cart</h1>
+<!-- Add the required classes from Tailwind CSS to your elements -->
+<h1 class="text-4xl font-bold mb-4">New Cart</h1>
 
 <!-- Form for creating the cart -->
-
 <!-- Form for selecting products to add to the cart -->
 <%= form_tag add_selected_products_to_cart_path, method: :post do %>
   <% @products.each do |product| %>
-    <div>
-      <%= check_box_tag "product_ids[]", product.id %>
-      <%= label_tag "product_#{product.id}", product.name %>
-      <%= number_field_tag "quantity_#{product.id}", 1, min: 1 %>
+    <div class="flex items-center mb-4">
+      <!-- Style for the checkbox -->
+      <%= check_box_tag "product_ids[]", product.id, false, class: "h-5 w-5 mr-2" %>
+
+      <div class="flex-grow">
+        <!-- Style for the product name label -->
+        <%= label_tag "product_#{product.id}", product.name, class: "font-semibold" %>
+        <!-- Style for the product price label -->
+        <%= label_tag "product_#{product.id}", product.price, class: "text-sm text-gray-600" %>
+      </div>
+
+      <!-- Style for the quantity field -->
+      <%= number_field_tag "quantity_#{product.id}", 1, min: 1, class: "w-16 px-3 py-1 border rounded" %>
     </div>
   <% end %>
 
-  <%= submit_tag "Add Selected Products to Cart" %>
+  <!-- Style for the "Add Selected Products to Cart" button -->
+  <%= submit_tag "Add Selected Products to Cart", class: "bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300" %>
 <% end %>

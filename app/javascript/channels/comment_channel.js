@@ -22,6 +22,30 @@ const updateContent = (commentId, updatedContent) => {
   }
 };
 
+function addReplyForm(commentContainer, commentId, categoryId, productId) {
+  const replyFormContainer = document.createElement("div");
+  replyFormContainer.classList.add("reply-form");
+
+  const replyForm = document.createElement("form");
+  replyForm.action = `/categories/${categoryId}/products/${productId}/comments/${commentId}/create_reply`;
+  replyForm.method = "post";
+
+  const replyTextArea = document.createElement("textarea");
+  replyTextArea.name = "content";
+  replyTextArea.classList.add("form-textarea");
+
+  replyForm.appendChild(replyTextArea);
+  replyFormContainer.appendChild(replyForm);
+
+  const submitButton = document.createElement("input");
+  submitButton.type = "submit";
+  submitButton.value = "Add Reply";
+  submitButton.classList.add("bg-blue-500", "text-white", "font-bold", "px-4", "py-2", "rounded");
+  replyFormContainer.appendChild(submitButton);
+
+  commentContainer.appendChild(replyFormContainer);
+}
+
 
 
 consumer.subscriptions.create("CommentChannel" ,{
@@ -73,6 +97,7 @@ consumer.subscriptions.create("CommentChannel" ,{
   `;
     // Add the comment element to the comments container
     commentContainer.appendChild(commentElement);
+    addReplyForm(commentContainer, data.id, data.category_id, data.product_id);
     // console.log("I also came here")
 
     }

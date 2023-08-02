@@ -1,26 +1,28 @@
-<h1>Your Cart</h1>
+<!-- Add the required classes from Tailwind CSS to your elements -->
+<h1 class="text-4xl font-bold mb-4">Your Cart</h1>
 
-<table>
+<table class="w-full">
   <thead>
     <tr>
-      <th>Product Name</th>
-      <th>Quantity</th>
-      <!-- Add other cart item attributes if needed -->
+      <th class="border p-4">Product Name</th>
+      <th class="border p-4">Quantity</th>
+      <th class="border p-4">Price</th>
+      <th class="border p-4">Action</th>
     </tr>
   </thead>
   <tbody>
     <% @cart_items.each do |cart_item| %>
       <tr>
-        <td><%= cart_item.product.name %></td>
-        <td><%= cart_item.quantity %></td>
-        <td><%= button_to 'Delete', cart_item_path(cart_item), method: :delete, class: 'btn btn-danger' %></td>
-
-        <!-- Add other cart item attributes if needed -->
+        <td class="border p-4"><%= cart_item.product.name %></td>
+        <td class="border p-4"><%= cart_item.quantity %></td>
+        <td class="border p-4"><%= cart_item.product.price %></td>
+        <td class="border p-4">
+          <%= button_to 'Delete', cart_item_path(cart_item), method: :delete, class: 'bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<h2>Add Product to Cart</h2>
-<%= link_to 'Add Product', new_cart_path, class: "mt-4 bg-gray-500 text-white font-bold px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300" %>
 
-
+<h2 class="text-2xl font-bold mt-8">Add Product to Cart</h2>
+<%= link_to 'Add Product', new_cart_path, class: "mt-4 bg-blue-500 text-white font-bold px-4 py-2 rounded hover:bg-gray-600 transition-colors duration-300" %>

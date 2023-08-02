@@ -4,7 +4,6 @@ class CommentsController < ApplicationController
   def create
     @comment = @product.comments.build(comment_params)
     user = User.find_by(id: @comment.user_id)
-    # @product = Product.find(params[:product_id])
     if current_user
       authorize @comment
      
@@ -12,11 +11,6 @@ class CommentsController < ApplicationController
       product = Product.find(params[:product_id])
       
       if @comment.save
-        # CommentChannel.broadcast_to("comment_channel", { product_id: @product.id, content: @comment.content })
-
-
-        # CommentChannel.broadcast_to(product, content: @comment.content) #this was working
-        # CommentChannel.broadcast_to("comment_channel", { product_id: @product.id, content: @comment.content })
         ActionCable.server.broadcast 'comment_channel', {user_name:@comment.user.name, product_id: product.id, content: @comment.content, method: "new" } #this aswell
         redirect_to category_product_path(@category, @product), notice: 'Comment was successfully added.'
         
@@ -92,8 +86,6 @@ class CommentsController < ApplicationController
       ActionCable.server.broadcast 'reply_channel', { comment_id: @comment.id, content: @newcomment.content, reply_id: @newcomment.id, user_name: @newcomment.user.name, method:"new" }
       redirect_to category_product_path(@category, @product), notice: 'Reply was successfully added.'
     else
-      # Handle validation errors if needed
-      
       puts @newcomment.errors.full_messages
       redirect_to category_product_path(@category, @product), alert: 'Failed to add reply.'
     end

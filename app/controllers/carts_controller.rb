@@ -23,8 +23,8 @@ class CartsController < ApplicationController
     end
     
     def create
-        @cart = Cart.new(cart_params)
-        # Additional code to handle cart creation and validation
+        # @cart = Cart.new(cart_params)
+       
     end
     def add_selected_products
         if user_signed_in?

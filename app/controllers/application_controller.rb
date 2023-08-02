@@ -3,7 +3,9 @@ class ApplicationController < ActionController::Base
     include Pundit::Authorization
     protect_from_forgery
       
-      
+    def not_found_method
+        render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
+    end
     def pundit_user
           
         current_user
