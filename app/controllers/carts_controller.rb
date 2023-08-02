@@ -23,13 +23,13 @@ class CartsController < ApplicationController
     end
     
     def create
-        # @cart = Cart.new(cart_params)
+      
        
     end
     def add_selected_products
         if user_signed_in?
             @cart = current_user.cart
-            # selected_product_ids = params[:product_ids] || []
+           
             selected_product_ids = params[:product_ids]
     selected_products_with_quantity = selected_product_ids.map { |id| [id, params["quantity_#{id}"].to_i] }
     
